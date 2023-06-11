@@ -43,6 +43,78 @@ body {
   text-align: center;
 }
 
-.weatherBlock{
-  
+.weatherBlock {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: lightskyblue;
+  padding: 30px;
+  border-radius: 15px;
+  user-select: none;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px,
+    rgba(0, 0, 0, 0.3) 0px 30px 60px -30px,
+    rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
+}
+.weatherBlock p {
+  margin: 0;
+}
+
+.windContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  width: 100%;
+}
+
+.cloudLoader {
+  height: 60px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.cityName {
+  font-size: 30px;
+  font-weight: 500;
+}
+
+.time {
+  font-size: 30px;
+  font-weight: 500;
+}
+
+.cityTimeContainer {
+  display: flex;
+  gap: 20px;
+}
+
+.temp {
+  font-size: 45px;
+  font-weight: 500;
+}
+
+.weatherDesc {
+  font-size: 20px;
+}
+
+.windSpeed {
+  font-size: 20px;
+}
+
+.weatherIconDescriptionContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.weatherIcon {
+  margin-left: -20px;
 }

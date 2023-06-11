@@ -44,7 +44,7 @@ function InputForm() {
     );
     const geoData: GeoResponse = geoResponse.data[DATA_API_KEY];
 
-    const weatherResponse = await axios.get<any>(
+    const weatherResponse = await axios.get<WeatherDataType>(
       `http://api.openweathermap.org/data/2.5/forecast?lat=${geoData.lat}&lon=${geoData.lon}&appid=${apiKey}`
     );
 
@@ -53,7 +53,8 @@ function InputForm() {
       time: weatherData?.dt,
       tempMin: weatherData?.main?.temp_min,
       tempMax: weatherData?.main?.temp_max,
-      weather: weatherData?.weather[0].main,
+      weatherIcon: weatherData?.weather[0].icon,
+      weatherDesc: weatherData?.weather[0].description,
       wind_speed: weatherData?.wind?.speed,
     };
 
