@@ -28,7 +28,7 @@ body {
 
 .weatherFrom {
   width: 200px;
-  diplay: flex;
+  display: flex;
   justify-content: center;
   align-items: center;
 }

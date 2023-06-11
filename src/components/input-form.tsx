@@ -1,10 +1,11 @@
-import { useState, useEffect, useContext } from "react";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import axios from "axios";
-import _ from "lodash";
-import { WeatherContext } from "../App";
+import lodash from "lodash";
+import { useRecoilState } from "recoil";
+import weatherDataState, { WeatherDataType } from "../recoilState/WeatherData";
 interface CityFormData {
   city: string;
 }
@@ -18,11 +19,12 @@ const formSchema = yup.object().shape({
   city: yup.string().required("You must add a city first"),
 });
 
-//const {weatherDataArray, setWeatherDataArray} = useContext(WeatherContext);
+const apiKey: string = "58386f423a9e7da5fd328c42985fc43e";
+const DATA_API_KEY: number = 0;
 
 function InputForm() {
-  const apiKey: string = "58386f423a9e7da5fd328c42985fc43e";
-  const [weatherDataArray, setWeatherDataArray] = useState<Array<object>>([]);
+  const [weatherDataArray, setWeatherDataArray] =
+    useRecoilState(weatherDataState);
 
   const {
     register,
@@ -40,34 +42,37 @@ function InputForm() {
     const geoResponse = await axios.get<GeoResponse[]>(
       `http://api.openweathermap.org/geo/1.0/direct?q=${data.city}&appid=${apiKey}`
     );
-    const geoData: GeoResponse = geoResponse.data[0];
+    const geoData: GeoResponse = geoResponse.data[DATA_API_KEY];
 
     const weatherResponse = await axios.get<any>(
       `http://api.openweathermap.org/data/2.5/forecast?lat=${geoData.lat}&lon=${geoData.lon}&appid=${apiKey}`
     );
 
-    const weatherData = weatherResponse.data.list[0];
+    const weatherData = weatherResponse?.data?.list?.[DATA_API_KEY];
     const weatherBlockData = {
-      time: weatherData.dt,
-      tempMin: weatherData.main.temp_min,
-      tempMax: weatherData.main.temp_max,
-      weather: weatherData.weather[0].main,
-      wind_speed: weatherData.wind.speed,
+      time: weatherData?.dt,
+      tempMin: weatherData?.main?.temp_min,
+      tempMax: weatherData?.main?.temp_max,
+      weather: weatherData?.weather[0].main,
+      wind_speed: weatherData?.wind?.speed,
     };
 
-    const alreadyExists = weatherDataArray.find((item: any) =>
-      _.isEqual(item, weatherBlockData)
-    );
+    setWeatherDataArray((prevData: WeatherDataType) => {
+      if (lodash.isEqual(prevData?.[data.city], weatherBlockData)) {
+        return prevData;
+      }
 
-    if (!alreadyExists) {
-      setWeatherDataArray([...weatherDataArray, weatherBlockData]);
-    }
+      return {
+        ...prevData,
+        [data.city]: weatherBlockData,
+      };
+    });
   };
 
   return (
     <form className="weatherForm" onSubmit={handleSubmit(onSubmit)}>
       <input placeholder="Enter city" {...register("city")} />
-      {errors.city && <p>{errors.city.message}</p>}
+      <p>{errors.city?.message}</p>
       <input type="submit" value="Check Weather" />
     </form>
   );
