@@ -3,10 +3,10 @@ import "../App.css";
 import WeatherBlock from "./weather-block";
 
 function WeatherContainer(props: any) {
-  return (
+  return props.visibility && (
     <div className="weatherContainer">
       {Object.entries(props.weatherData).map(([city, weatherData]) => (
-        <WeatherBlock key={city} city={city} data={weatherData} />
+        <WeatherBlock key={city} city={city} data={weatherData}/>
       ))}
     </div>
   );

@@ -4,8 +4,10 @@ import * as yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
 import axios from "axios";
 import lodash from "lodash";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useSetRecoilState } from "recoil";
 import weatherDataState, { WeatherDataType } from "../recoilState/WeatherData";
+import weatherContainerVisibilityState from "../recoilState/WeatherContainer";
+import cloudLoaderVisibilityState from "../recoilState/CloudLoader";
 interface CityFormData {
   city: string;
 }
@@ -26,6 +28,14 @@ function InputForm() {
   const [weatherDataArray, setWeatherDataArray] =
     useRecoilState(weatherDataState);
 
+  const setWeatherContainerVisibilityState = useSetRecoilState(
+    weatherContainerVisibilityState
+  );
+
+  const setCloudLoaderVisibilityState = useSetRecoilState(
+    cloudLoaderVisibilityState
+  );
+
   const {
     register,
     handleSubmit,
@@ -39,6 +49,9 @@ function InputForm() {
   }, [weatherDataArray]);
 
   const onSubmit = async (data: CityFormData) => {
+    setCloudLoaderVisibilityState(true);
+    setWeatherContainerVisibilityState(false);
+
     const geoResponse = await axios.get<GeoResponse[]>(
       `http://api.openweathermap.org/geo/1.0/direct?q=${data.city}&appid=${apiKey}`
     );
@@ -68,6 +81,9 @@ function InputForm() {
         [data.city]: weatherBlockData,
       };
     });
+
+    setCloudLoaderVisibilityState(false);
+    setWeatherContainerVisibilityState(true);
   };
 
   return (

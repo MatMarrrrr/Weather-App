@@ -1,6 +1,9 @@
-import React from "react";
 import "../App.css";
 import windIcon from "../assets/windIcon.png";
+
+const capitalizeFirstLetter = (string: string) => {
+  return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
+}
 
 function WeatherBlock(props: any) {
   return (
@@ -15,7 +18,7 @@ function WeatherBlock(props: any) {
           className="weatherIcon"
           src={`https://openweathermap.org/img/wn/${props.data.weatherIcon}@2x.png`}
         />
-        <p className="weatherDesc">{props.data.weatherDesc}</p>
+        <p className="weatherDesc">{capitalizeFirstLetter(props.data.weatherDesc)}</p>
       </div>
 
       <div className="windContainer">
