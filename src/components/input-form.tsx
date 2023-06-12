@@ -87,15 +87,19 @@ function InputForm() {
     } catch (error) {
       console.error("There was an error!", error);
     } finally {
+      setWeatherContainerVisibilityState(true);
       setCloudLoaderVisibilityState(false);
     }
   };
 
   return (
     <form className="weatherForm" onSubmit={handleSubmit(onSubmit)}>
-      <input placeholder="Enter city" {...register("city")} />
+      <div className="inputContainer">
+        <input type="text" placeholder="Enter city" {...register("city")} />
+        <input type="submit" value="Check Weather" />
+      </div>
+
       <p>{errors.city?.message}</p>
-      <input type="submit" value="Check Weather" />
     </form>
   );
 }
