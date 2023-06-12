@@ -45,7 +45,7 @@ function InputForm() {
     const geoData: GeoResponse = geoResponse.data[DATA_API_KEY];
 
     const weatherResponse = await axios.get<WeatherDataType>(
-      `http://api.openweathermap.org/data/2.5/forecast?lat=${geoData.lat}&lon=${geoData.lon}&appid=${apiKey}`
+      `http://api.openweathermap.org/data/2.5/forecast?lat=${geoData.lat}&lon=${geoData.lon}&appid=${apiKey}&units=metric`
     );
 
     const weatherData = weatherResponse?.data?.list?.[DATA_API_KEY];
