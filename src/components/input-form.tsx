@@ -52,38 +52,43 @@ function InputForm() {
     setCloudLoaderVisibilityState(true);
     setWeatherContainerVisibilityState(false);
 
-    const geoResponse = await axios.get<GeoResponse[]>(
-      `http://api.openweathermap.org/geo/1.0/direct?q=${data.city}&appid=${apiKey}`
-    );
-    const geoData: GeoResponse = geoResponse.data[DATA_API_KEY];
+    try {
+      const geoResponse = await axios.get<GeoResponse[]>(
+        `http://api.openweathermap.org/geo/1.0/direct?q=${data.city}&appid=${apiKey}`
+      );
+      const geoData: GeoResponse = geoResponse.data[DATA_API_KEY];
 
-    const weatherResponse = await axios.get<WeatherDataType>(
-      `http://api.openweathermap.org/data/2.5/forecast?lat=${geoData.lat}&lon=${geoData.lon}&appid=${apiKey}&units=metric`
-    );
+      const weatherResponse = await axios.get<WeatherDataType>(
+        `http://api.openweathermap.org/data/2.5/forecast?lat=${geoData.lat}&lon=${geoData.lon}&appid=${apiKey}&units=metric`
+      );
 
-    const weatherData = weatherResponse?.data?.list?.[DATA_API_KEY];
-    const weatherBlockData = {
-      time: weatherData?.dt,
-      tempMin: weatherData?.main?.temp_min,
-      tempMax: weatherData?.main?.temp_max,
-      weatherIcon: weatherData?.weather[0].icon,
-      weatherDesc: weatherData?.weather[0].description,
-      wind_speed: weatherData?.wind?.speed,
-    };
-
-    setWeatherDataArray((prevData: WeatherDataType) => {
-      if (lodash.isEqual(prevData?.[data.city], weatherBlockData)) {
-        return prevData;
-      }
-
-      return {
-        ...prevData,
-        [data.city]: weatherBlockData,
+      const weatherData = weatherResponse?.data?.list?.[DATA_API_KEY];
+      const weatherBlockData = {
+        time: weatherData?.dt,
+        tempMin: weatherData?.main?.temp_min,
+        tempMax: weatherData?.main?.temp_max,
+        weatherIcon: weatherData?.weather[0].icon,
+        weatherDesc: weatherData?.weather[0].description,
+        wind_speed: weatherData?.wind?.speed,
       };
-    });
 
-    setCloudLoaderVisibilityState(false);
-    setWeatherContainerVisibilityState(true);
+      setWeatherDataArray((prevData: WeatherDataType) => {
+        if (lodash.isEqual(prevData?.[data.city], weatherBlockData)) {
+          return prevData;
+        }
+
+        return {
+          ...prevData,
+          [data.city]: weatherBlockData,
+        };
+      });
+
+      setWeatherContainerVisibilityState(true);
+    } catch (error) {
+      console.error("There was an error!", error);
+    } finally {
+      setCloudLoaderVisibilityState(false);
+    }
   };
 
   return (
