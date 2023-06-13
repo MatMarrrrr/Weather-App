@@ -55,12 +55,12 @@ function InputForm() {
 
     try {
       const geoResponse = await axios.get<GeoResponse[]>(
-        `http://api.openweathermap.org/geo/1.0/direct?q=${data.city}&appid=${apiKey}`
+        `https://api.openweathermap.org/geo/1.0/direct?q=${data.city}&appid=${apiKey}`
       );
       const geoData: GeoResponse = geoResponse.data[DATA_API_KEY];
 
       const weatherResponse = await axios.get<WeatherDataType>(
-        `http://api.openweathermap.org/data/2.5/forecast?lat=${geoData.lat}&lon=${geoData.lon}&appid=${apiKey}&units=metric`
+        `https://api.openweathermap.org/data/2.5/forecast?lat=${geoData.lat}&lon=${geoData.lon}&appid=${apiKey}&units=metric`
       );
 
       const weatherData = weatherResponse?.data?.list?.[DATA_API_KEY];
