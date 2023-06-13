@@ -15,6 +15,7 @@ interface CityFormData {
 interface GeoResponse {
   lat: number;
   lon: number;
+  name: string;
 }
 
 const formSchema = yup.object().shape({
@@ -64,6 +65,7 @@ function InputForm() {
 
       const weatherData = weatherResponse?.data?.list?.[DATA_API_KEY];
       const weatherBlockData = {
+        cityName: geoData.name,
         time: weatherData?.dt,
         tempMin: weatherData?.main?.temp_min,
         tempMax: weatherData?.main?.temp_max,
@@ -73,13 +75,13 @@ function InputForm() {
       };
 
       setWeatherDataArray((prevData: WeatherDataType) => {
-        if (lodash.isEqual(prevData?.[data.city], weatherBlockData)) {
+        if (lodash.isEqual(prevData?.[geoData.name], weatherBlockData)) {
           return prevData;
         }
 
         return {
           ...prevData,
-          [data.city]: weatherBlockData,
+          [geoData.name]: weatherBlockData,
         };
       });
 
