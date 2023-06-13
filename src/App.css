@@ -60,13 +60,6 @@ body {
   margin: 0;
 }
 
-.windContainer {
-  display: flex;
-  align-items: center;
-  justify-content: space-around;
-  width: 100%;
-}
-
 .cloudLoader {
   height: 80px;
   animation: spin 1s linear infinite;
@@ -114,8 +107,21 @@ body {
   font-size: 20px;
 }
 
+.weatherDesc {
+  font-size: 20px;
+}
+
+.humidityText {
+  font-size: 20px;
+}
+
 .windSpeed {
   font-size: 20px;
+}
+
+.humidityIcon {
+  height: 50px;
+  width: 50px;
 }
 
 .weatherIconDescriptionContainer {
@@ -181,4 +187,21 @@ body {
 .inputContainer {
   display: flex;
   gap: 20px;
+}
+
+.humidityWindContainer {
+  display: flex;
+  gap: 65px;
+}
+
+.humidityWindIcons {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.humidityWindTexts {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
 }

@@ -71,6 +71,7 @@ function InputForm() {
         tempMax: weatherData?.main?.temp_max,
         weatherIcon: weatherData?.weather[0].icon,
         weatherDesc: weatherData?.weather[0].description,
+        humidity: weatherData?.main?.humidity,
         wind_speed: weatherData?.wind?.speed,
       };
 

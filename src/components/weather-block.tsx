@@ -1,5 +1,6 @@
 import "../App.css";
 import windIcon from "../assets/windIcon.png";
+import humidityIcon from "../assets/humidityIcon.png";
 
 const capitalizeFirstLetter = (string: string) => {
   return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
@@ -31,9 +32,15 @@ function WeatherBlock(props: any) {
         </p>
       </div>
 
-      <div className="windContainer">
-        <img className="windIcon" src={windIcon} />
-        <p className="windSpeed">{props.data.wind_speed}km/h</p>
+      <div className="humidityWindContainer">
+        <div className="humidityWindIcons">
+          <img className="humidityIcon" src={humidityIcon} />
+          <img className="windIcon" src={windIcon} />
+        </div>
+        <div className="humidityWindTexts">
+          <p className="humidityText">{props.data.humidity}%</p>
+          <p className="windSpeed">{props.data.wind_speed}km/h</p>
+        </div>
       </div>
     </div>
   );
