@@ -39,7 +39,7 @@ function WeatherBlock(props: any) {
         </div>
         <div className="humidityWindTexts">
           <p className="humidityText">{props.data.humidity}%</p>
-          <p className="windSpeed">{props.data.wind_speed}km/h</p>
+          <p className="windSpeed">{props.data.wind_speed} m/s</p>
         </div>
       </div>
     </div>
