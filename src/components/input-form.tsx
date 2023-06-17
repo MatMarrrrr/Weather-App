@@ -22,7 +22,7 @@ const formSchema = yup.object().shape({
   city: yup.string().required("You must add a city first"),
 });
 
-const apiKey: string = "58386f423a9e7da5fd328c42985fc43e";
+const apiKey: string = import.meta.env.VITE_APP_OPEN_WEATHER_API_KEY as string;
 const DATA_API_KEY: number = 0;
 
 function InputForm() {
